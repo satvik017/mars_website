@@ -246,9 +246,10 @@ body {
   }
 
   .app-card img {
-    width: 50%;
+    width: 60%;
   }
   .app-card{
+    width: 35vh;
     overflow-y: hidden;
   }
   .app-card__subtext{
