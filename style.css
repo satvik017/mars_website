@@ -191,6 +191,8 @@ body {
   flex-direction: column;
   width: 50vh;
   font-size: 25px;
+  justify-content: center;
+  align-items: center;
   background-color: var(--content-bg);
   border-radius: 14px;
   border: 1px solid var(--theme-bg-color);
@@ -203,11 +205,8 @@ body {
   transform: scale(1.02);
   background-color: var(--theme-bg-color);
 }
-.app-card svg {
-  width: 28px;
-  border-radius: 6px;
-  margin-right: 12px;
-  flex-shrink: 0;
+.app-card img {
+  width: 100%;
 }
 .app-card span {
   display: flex;
@@ -218,6 +217,7 @@ body {
 .app-card__subtext {
   font-weight: 400;
   line-height: 1.6em;
+  width: 100%;
   margin-top: 20px;
   border-bottom: 1px solid var(--border-color);
   border-top: 1px solid var(--border-color);
@@ -243,5 +243,19 @@ body {
 @media screen and (max-width: 1050px) {
   .appCard {
     justify-content: center;
+  }
+
+  .app-card img {
+    width: 50%;
+  }
+  .app-card{
+    overflow-y: hidden;
+  }
+  .app-card__subtext{
+    font-size: 3rem;
+  }
+  .form-control{
+    font-size: 1.5rem;
+    width: 80%;
   }
 }
