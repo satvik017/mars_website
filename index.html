@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="row appCard">
+        <div class="row">
           <div class="col-md-4 app-card">
               <img src="./Image/haldirams-logo.png" />
               <div class="app-card__subtext " id="haldiram">0</div>
@@ -46,6 +46,10 @@
           <div class="col-md-4 app-card">
               <img src="./Image/wagh.png" />
               <div class="app-card__subtext " id="waghbakhri">0</div>
+          </div>
+          <div class="col-md-4 app-card">
+              <img src="./Image/Wow-China-Logo.png" />
+              <div class="app-card__subtext " id="wowchina">0</div>
           </div>
         </div>
         
@@ -60,18 +64,23 @@
           var ToDate = $("#ToDate").val(currentDate.toISOString().substr(0, 10));
           GetWaghCollection();
           GetHaldiramCollection('D');
+          GetWowCollection('D');
         });
         $("#FromDate").change(function () {
           GetWaghCollection();
           $("#ToDate").val('');
           GetHaldiramCollection('D');
+          GetWowCollection('D');
 
         })
         $("#ToDate").change(function () {
           GetWaghCollection();
           GetHaldiramCollection('FTD');
+          GetWowCollection('FTD');
 
         })
+        
+        
         async function GetWaghCollection() {
           var FromDate = $("#FromDate").val();
           var ToDate = $("#ToDate").val();
@@ -165,6 +174,55 @@
               }
 
               $("#haldiram").html(dollarIndianLocale.format(Math.round(totalAmount)));
+
+
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', error);
+            }
+          });
+          // Parsing it to JSON format
+
+        }
+
+        
+        function GetWowCollection(flag) {
+          var FromDate = $("#FromDate").val();
+          var ToDate = $("#ToDate").val();
+          var totalAmount = 0;
+          var requestData = {
+            userId: 'wow',
+            password: 'wow12345%$#@!',
+            fromDate: FromDate,
+            toDate: ToDate,
+            shopId: '3',
+            flag: flag,
+          };
+          $.ajax({
+            url: 'https://api.marsresorts.in/Home/GetShopCollection',
+            type: 'POST', // Although it says GET, it will be treated as POST
+            contentType: 'application/json', // Set the content type of the request body
+            dataType: 'JSON',
+            data: JSON.stringify(requestData),
+            success: function (response) {
+              console.log('Response:', response);
+              const data = response;
+              let dollarIndianLocale = Intl.NumberFormat('en-IN');
+              // Retrieving data from JSON
+              const collection = data.data;
+              if (collection.length > 0) {
+                var sn = 0;
+                collection.sort((a, b) => {
+                  let da = new Date(a.businesS_DT),
+                    db = new Date(b.businesS_DT);
+                  return db - da;
+                });
+                collection.forEach((value) => {
+                  totalAmount += value.amount;
+                });
+              }
+
+              $("#wowchina").html(dollarIndianLocale.format(Math.round(totalAmount)));
 
 
             },
